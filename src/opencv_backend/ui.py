@@ -4,7 +4,7 @@ import cv2 as cv
 
 def draw_grid(frame):
     """Draws a 3 by 3 grid on the frame"""
-    height, width, channels = frame.shape
+    height, width, _ = frame.shape
     for i in range(1, 3):
         startpoint_height = (0, i * height // 3)
         startpoint_width = (i * width // 3, 0)
@@ -19,7 +19,7 @@ def draw_grid(frame):
 def draw_x(frame, grid_location, color=(0, 0, 255), thickness=7):
     """Draws X on the selected grid marker.\n
     location should be a tuple with two numbers indicating place on the grid"""
-    height, width, channels = frame.shape
+    height, width, _ = frame.shape
     width_offset = width // 3 * 0.25
     height_offset = height // 3 * 0.25
 
@@ -34,7 +34,7 @@ def draw_x(frame, grid_location, color=(0, 0, 255), thickness=7):
 def draw_circle(frame, grid_location, color=(0, 0, 255), thickness=7):
     """Draws circle on the selected grid marker.\n
     location should be a tuple with two numbers indicating place on the grid"""
-    height, width, channels = frame.shape
+    height, width, _ = frame.shape
     width_offset = width // 3 * 0.5
     height_offset = height // 3 * 0.5
     center = (
