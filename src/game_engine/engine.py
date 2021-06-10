@@ -3,6 +3,22 @@
 from .board import Board, DrawStatus, PlayerWonStatus
 
 
+class Coordinates:
+    """Represents a set of coordiantes"""
+
+    def __init__(self, x, y, symbol):
+        self.x = x
+        self.y = y
+        self.symbol = symbol
+
+    def get_coordinates(self):
+        """returns a set of coordinates formated for the board"""
+        return (self.y, self.x)
+
+    def __len__(self):
+        return self.y * 3 + self.x
+
+
 class Engine:
     """Instance of the engine handling the game"""
 
@@ -11,15 +27,12 @@ class Engine:
         self.has_won = False
         self.winner = None
 
-    def make_move(self, move):
-        """Tries to make a move\n
-        move:   should be a dictionary with 'symbol' being either 'x' or 'o'
-        and coordinates being a tuple with two elements\n
-        example {coordiantes:(0,0),symbol:'x'}"""
+    def make_move(self, coords):
+        """Tries to make a move"""
         if self.has_won:
             pass
         try:
-            self.board.add(move["coordinates"], move["symbol"])
+            self.board.add(coords.get_coordinates(), coords.symbol)
         except PlayerWonStatus as won:
             self.has_won = True
             self.winner = won.player
