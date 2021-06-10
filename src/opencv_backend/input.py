@@ -81,7 +81,7 @@ class InputSystem:
             )
             # ROI = frame[roi[0][1] : roi[1][1], roi[0][0] : roi[1][0]]
 
-            cv.imshow("Sampling", frame)
+            cv.imshow("Input", frame)
             if cv.waitKey(1) != -1:
                 self.tracker.init(
                     frame,
@@ -93,7 +93,6 @@ class InputSystem:
                     ),
                 )
                 break
-        cv.destroyWindow("Sampling")
 
     # def __setup_tracker(self):
     #     """Setup KCF tracker using selectROI function"""
@@ -120,7 +119,6 @@ class InputSystem:
             notlost, bbox = self.tracker.update(frame)
             if notlost:
                 lost_start = 0
-                interface.overlay(frame)
                 cv.rectangle(
                     frame,
                     (bbox[0], bbox[1]),
@@ -128,11 +126,14 @@ class InputSystem:
                     (0, 0, 255),
                     2,
                 )
+                frame = interface.overlay(frame)
                 cv.imshow("Input", frame)
                 loc = (
                     self._check_x(separators["x"], bbox),
                     self._check_y(separators["y"], bbox),
                 )
+
+                cv.waitKey(1)
                 if not (isinstance(loc[0], int) and isinstance(loc[1], int)):
                     continue
                 if loc != cache:
@@ -152,11 +153,11 @@ class InputSystem:
                     2,
                 )
                 cv.imshow("Input", frame)
+                cv.waitKey(1)
                 if lost_start != 0:
                     lost_start = perf_counter()
                 elif perf_counter() - lost_start > 5:
                     self.setup_tracker()
-            cv.waitKey(1)
 
     def _check_x(self, separator_x, bbox):
         """Returns the x space on the grid that tracked object is located at"""
