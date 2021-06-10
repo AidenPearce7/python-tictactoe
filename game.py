@@ -41,6 +41,7 @@ def player_move():
     """Attempts to move, returns whether the move was successful"""
     location = in_sys.check_bounds(interface)
     coords = Coordinates(location[0], location[1], args.symbol)
+    print(coords.x, coords.y)
     try:
         instance.make_move(coords)
     except PositionTakenException:
@@ -59,6 +60,7 @@ moves = queue.Queue(2)
 def opponent_move():
     """makes a bot move"""
     coords = bot.make_random_move()
+    print(coords.x, coords.y)
     instance.make_move(coords)
     bot.add_move(coords)
     interface.draw_move(coords)
@@ -75,3 +77,9 @@ while not instance.has_won:
     move = moves.get()
     moves.put(move)
     move()
+
+
+if instance.winner != "DRAW":
+    print(instance.winner + "'s have won")
+else:
+    print(instance.winner)
