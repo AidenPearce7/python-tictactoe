@@ -1,7 +1,6 @@
 """Collects functions to get input from camera"""
 from time import perf_counter
 import cv2 as cv
-import numpy as np
 
 
 class InputSystem:
@@ -58,7 +57,7 @@ class InputSystem:
         roi = ((400, 100), (500, 250))
         self.tracker = cv.TrackerKCF_create()
         while True:
-            ok, frame = self.camera.read()
+            _, frame = self.camera.read()
             frame = cv.flip(frame, 1)
             cv.rectangle(frame, roi[0], roi[1], (0, 255, 0), 2)
             cv.putText(
