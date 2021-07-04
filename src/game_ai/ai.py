@@ -13,7 +13,11 @@ class AI:
     def make_random_move(self):
         """Make random list with random x,y coordinate"""
         random_field = randint(0, len(self.free_coordinates) - 1)
-        return Coordinates(random_field % 3, random_field // 3, self.symbol)
+        return Coordinates(
+            self.free_coordinates[random_field] % 3,
+            self.free_coordinates[random_field] // 3,
+            self.symbol,
+        )
 
     def add_move(self, coords):
         """Updates availble moves"""
