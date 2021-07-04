@@ -1,7 +1,7 @@
 """Module with unit tests for the engine"""
 from contextlib import nullcontext
 import pytest
-from src.game_engine.engine import Engine
+from src.game_engine.engine import Engine, Coordinates
 from src.game_engine.board import (
     Board,
     OutsideBoardException,
@@ -105,36 +105,32 @@ class TestEngine:
     @pytest.mark.parametrize(
         "move,expectation",
         [
-            ({"coordinates": (0, 1), "symbol": "x"}, nullcontext()),
+            (Coordinates(0, 1, "x"), nullcontext()),
             (
-                {"coordinates": (0, -1), "symbol": "x"},
+                Coordinates(0, -1, "x"),
                 pytest.raises(OutsideBoardException),
             ),
             (
-                {"coordinates": (0, 1), "symbol": "o"},
+                Coordinates(0, 1, "o"),
                 pytest.raises(WrongPlayerException),
-            ),
-            (
-                {"coordinates": (1,), "symbol": "x"},
-                pytest.raises(NotEnoughArgumentsException),
             ),
         ],
     )
     def test_move(self, move, expectation):
         """Tests if move raises proper exceptions"""
-        instance = Engine()
+        instance = Engine("x")
         with expectation:
             assert instance.make_move(move) is None
 
     def test_win(self):
         """Tests if winner is reported correctly"""
-        instance = Engine()
+        instance = Engine("x")
         move_set = (
-            {"coordinates": (0, 1), "symbol": "x"},
-            {"coordinates": (1, 2), "symbol": "o"},
-            {"coordinates": (1, 1), "symbol": "x"},
-            {"coordinates": (0, 2), "symbol": "o"},
-            {"coordinates": (2, 1), "symbol": "x"},
+            Coordinates(0, 1, "x"),
+            Coordinates(1, 2, "o"),
+            Coordinates(1, 1, "x"),
+            Coordinates(0, 2, "o"),
+            Coordinates(2, 1, "x"),
         )
         for move in move_set:
             instance.make_move(move)
