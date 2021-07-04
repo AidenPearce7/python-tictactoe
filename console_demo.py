@@ -4,7 +4,9 @@ from src.game_engine.board import (
     WrongPlayerException,
     OutsideBoardException,
 )
-from src.game_engine.engine import instance
+from src.game_engine.engine import Engine
+
+instance = Engine("x")
 
 print("Type location and symbol to play")
 while not instance.has_won:

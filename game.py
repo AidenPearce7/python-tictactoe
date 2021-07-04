@@ -6,7 +6,7 @@ import cv2 as cv
 
 from src.game_ai.ai import AI
 from src.game_engine.board import OutsideBoardException, PositionTakenException
-from src.game_engine.engine import Coordinates, instance
+from src.game_engine.engine import Coordinates, Engine
 from src.opencv_backend.input import InputSystem
 from src.opencv_backend.ui import UI
 
@@ -27,6 +27,13 @@ if args.symbol == "x":
 else:
     bot = AI("x")
 
+if args.starting:
+    print("Setting starting player as", args.symbol)
+    instance = Engine(args.symbol)
+else:
+    print("Setting starting player as", args.symbol)
+    instance = Engine(bot.symbol)
+
 camera = cv.VideoCapture(0)
 if not camera.isOpened:
     print("Failed to open camera")
@@ -39,18 +46,19 @@ in_sys.setup_tracker()
 
 def player_move():
     """Attempts to move, returns whether the move was successful"""
-    location = in_sys.check_bounds(interface)
-    coords = Coordinates(location[0], location[1], args.symbol)
-    print(coords.x, coords.y)
-    try:
-        instance.make_move(coords)
-    except PositionTakenException:
-        print("Position already taken")
-        return False
-    except OutsideBoardException:
-        print("Chosen position is ouside the board (don't know how you did it)")
-        return False
+    correct_input = False
+    while not correct_input:
+        location = in_sys.check_bounds(interface)
+        coords = Coordinates(location[0], location[1], args.symbol)
+        try:
+            instance.make_move(coords)
+            correct_input = True
+        except PositionTakenException:
+            print("Position already taken")
+        except OutsideBoardException:
+            print("Chosen position is ouside the board (don't know how you did it)")
     interface.draw_move(coords)
+    bot.add_move(coords)
     return True
 
 
@@ -60,7 +68,6 @@ moves = queue.Queue(2)
 def opponent_move():
     """makes a bot move"""
     coords = bot.make_random_move()
-    print(coords.x, coords.y)
     instance.make_move(coords)
     bot.add_move(coords)
     interface.draw_move(coords)
