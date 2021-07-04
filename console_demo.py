@@ -1,4 +1,5 @@
 """Sample engine implementation"""
+import sys
 from src.game_engine.board import (
     PositionTakenException,
     WrongPlayerException,
@@ -13,7 +14,7 @@ while not instance.has_won:
     print(instance.get_board_copy())
     from_usr = input("Type location and symbol to play (example: 0,0,x):\n").split(",")
     if from_usr[0] == "exit":
-        exit(0)
+        sys.exit(0)
     if len(from_usr) < 2:
         print("input error")
         continue
