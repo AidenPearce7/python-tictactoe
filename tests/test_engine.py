@@ -118,13 +118,13 @@ class TestEngine:
     )
     def test_move(self, move, expectation):
         """Tests if move raises proper exceptions"""
-        instance = Engine()
+        instance = Engine("x")
         with expectation:
             assert instance.make_move(move) is None
 
     def test_win(self):
         """Tests if winner is reported correctly"""
-        instance = Engine()
+        instance = Engine("x")
         move_set = (
             Coordinates(0, 1, "x"),
             Coordinates(1, 2, "o"),
