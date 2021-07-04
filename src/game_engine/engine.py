@@ -22,8 +22,8 @@ class Coordinates:
 class Engine:
     """Instance of the engine handling the game"""
 
-    def __init__(self):
-        self.board = Board()
+    def __init__(self, starting_symbol):
+        self.board = Board(starting_symbol)
         self.has_won = False
         self.winner = None
 
@@ -51,6 +51,3 @@ class Engine:
         self.board.clear()
         self.has_won = False
         self.winner = None
-
-
-instance = Engine()

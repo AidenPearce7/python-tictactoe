@@ -5,11 +5,14 @@ from numpy import array, dtype
 class Board:
     """Handles the game board"""
 
-    def __init__(self):
-        self._players = ("x", "o", " ")
-        self._board = array([[self._players[2]] * 3] * 3, dtype=dtype("U1"))
-        self._next_play_by = "x"
+    def __init__(self, starting_player="x"):
+        self._next_play_by = starting_player
         self._amount_of_moves_made = 0
+        if starting_player == "x":
+            self._players = ("x", "o", " ")
+        else:
+            self._players = ("o", "x", " ")
+        self._board = array([[self._players[2]] * 3] * 3, dtype=dtype("U1"))
 
     def add(self, location, item):
         """Adds and item to the location\n
