@@ -1,6 +1,6 @@
 """Module containing simple game AI"""
 from random import randint
-from ..game_engine.engine import Coordinates
+from .engine import Coordinates
 
 
 class AI:

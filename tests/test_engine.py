@@ -1,8 +1,8 @@
 """Module with unit tests for the engine"""
 from contextlib import nullcontext
 import pytest
-from src.game_engine.engine import Engine, Coordinates
-from src.game_engine.board import (
+from tictactoe.engine import Engine, Coordinates
+from tictactoe.board import (
     Board,
     OutsideBoardException,
     WrongPlayerException,
